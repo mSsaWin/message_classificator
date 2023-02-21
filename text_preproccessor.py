@@ -8,20 +8,20 @@ nltk.download("stopwords")
 
 class TextPreproccessor:
     def __init__(self):
-        self.html_pattern = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
-        self.alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя "
+        self.__html_pattern = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
+        self.__alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя "
 
-        self.mystem = Mystem()  # for lemmatization
-        self.russian_stopwords = stopwords.words("russian")
+        self.__mystem = Mystem()  # for lemmatization
+        self.__russian_stopwords = stopwords.words("russian")
 
     def __remove_html(self, text: str) -> str:
-        return re.sub(self.html_pattern, '', text)
+        return re.sub(self.__html_pattern, '', text)
 
     def __filter_symbols(self, text: str) -> str:
-        return ''.join([symbol for symbol in text if symbol in self.alphabet])
+        return ''.join([symbol for symbol in text if symbol in self.__alphabet])
 
     def __lemmatization(self, text: str) -> str:
-        return ''.join(self.mystem.lemmatize(text))
+        return ''.join(self.__mystem.lemmatize(text))
 
     def __strip(self, text: str) -> str:
         return text.strip()
@@ -35,7 +35,7 @@ class TextPreproccessor:
         words_without_stopwords = []
 
         for word in words:
-            if word not in self.russian_stopwords:
+            if word not in self.__russian_stopwords:
                 words_without_stopwords.append(word)
 
         return ' '.join(words_without_stopwords)
